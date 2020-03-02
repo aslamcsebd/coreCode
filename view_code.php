@@ -161,8 +161,8 @@
 
                                  <!-- Code -->
                                  <td> 
-                                    <button class="btn2 btn btn-primary btn-fill" data-clipboard-target="#copy">Copy</button>
-                                    <label id="copy">  
+                                    <button class="btn2 btn btn-primary btn-fill" data-clipboard-target="#copy<?= $row['id'] ?>">Copy</button>
+                                    <label id="copy<?= $row['id'] ?>">  
                                        <?php echo "<pre>". htmlspecialchars($row['code'],ENT_QUOTES)."</pre>";?>
                                     </label>                                   
                                  </td>                      
