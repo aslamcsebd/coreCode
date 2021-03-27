@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 27, 2021 at 12:17 PM
+-- Generation Time: Mar 04, 2021 at 12:28 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
 
@@ -20,29 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `code`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `alerts`
---
-
-CREATE TABLE `alerts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `alertName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `alerts`
---
-
-INSERT INTO `alerts` (`id`, `alertName`, `created_at`, `updated_at`) VALUES
-(1, 'success', NULL, NULL),
-(2, 'danger', NULL, NULL),
-(3, 'warning', NULL, NULL),
-(4, 'info', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -65,16 +42,15 @@ CREATE TABLE `all_codes` (
 --
 
 INSERT INTO `all_codes` (`id`, `codeTypeId`, `codeTitle`, `code`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'html', 'kjhjkhkj', NULL, '2021-03-27 06:14:29', NULL),
-(2, 2, 'html2', 'html2 code', NULL, '2021-03-27 04:32:16', '2021-03-27 04:32:16'),
+(1, 1, 'html', 'html code', NULL, NULL, NULL),
+(2, 2, 'html2', 'html2 code', NULL, NULL, NULL),
+(3, 3, 'css', 'css code', NULL, NULL, NULL),
 (4, 4, 'css2', 'csss2 code', NULL, NULL, NULL),
 (5, 5, 'js', 'js code', NULL, NULL, NULL),
 (6, 6, 'js2', 'js2 code', NULL, NULL, NULL),
 (7, 7, 'html3', 'html3 code', NULL, NULL, NULL),
-(8, 1, 'html3-2', 'html3-2 code', NULL, NULL, NULL),
-(9, 1, 'html2', 'code 2', NULL, NULL, NULL),
-(12, 1, 'code', '<div class=\"row\">\r\n   <div class=\"col-4\">\r\n      <label class=\"fieldlabels\">Room type: *</label> \r\n      <select class=\"fieldlabels\" id=\"roomType\">\r\n         <option>Please select</option>                                 \r\n         <option value=\"\">Single</option>                               \r\n         <option value=\"\">Double</option>                               \r\n         <option value=\"\">Large</option>                                \r\n         <option value=\"\">Extra Large</option>                          \r\n      </select>\r\n   </div>                                                         \r\n</div>', NULL, '2021-03-27 04:27:52', '2021-03-27 04:27:52'),
-(14, 56, 'fdgfg', 'dfgfdg', NULL, '2021-03-27 05:51:15', '2021-03-27 05:51:15');
+(8, 7, 'html3-2', 'html3-2 code', NULL, NULL, NULL),
+(9, 1, 'html2', 'code 2', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -102,8 +78,33 @@ INSERT INTO `code_types` (`id`, `userId`, `codeType`, `created_at`, `updated_at`
 (4, 1, 'css2', NULL, NULL, NULL),
 (5, 1, 'js', NULL, NULL, NULL),
 (6, 1, 'js2', NULL, NULL, NULL),
-(7, 2, 'html3', NULL, NULL, NULL),
-(8, 1, '123', NULL, NULL, NULL);
+(7, 2, 'html3', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `code_type__to__all_codes`
+--
+
+CREATE TABLE `code_type__to__all_codes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codeType_id` int(11) NOT NULL,
+  `allCode_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `code_type__to__all_codes`
+--
+
+INSERT INTO `code_type__to__all_codes` (`id`, `codeType_id`, `allCode_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, NULL, NULL),
+(2, 1, 1, NULL, NULL),
+(3, 2, 2, NULL, NULL),
+(4, 1, 2, NULL, NULL),
+(5, 1, 1, NULL, NULL),
+(6, 2, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -142,8 +143,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2020_10_27_170757_create_code_types_table', 1),
 (5, '2020_10_27_170816_create_all_codes_table', 1),
-(6, '2021_03_04_112533_create_code_type__to__all_codes_table', 2),
-(7, '2021_03_27_085014_create_alerts_table', 3);
+(6, '2021_03_04_112533_create_code_type__to__all_codes_table', 2);
 
 -- --------------------------------------------------------
 
@@ -188,12 +188,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 --
 
 --
--- Indexes for table `alerts`
---
-ALTER TABLE `alerts`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `all_codes`
 --
 ALTER TABLE `all_codes`
@@ -203,6 +197,12 @@ ALTER TABLE `all_codes`
 -- Indexes for table `code_types`
 --
 ALTER TABLE `code_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_type__to__all_codes`
+--
+ALTER TABLE `code_type__to__all_codes`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -235,22 +235,22 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `alerts`
---
-ALTER TABLE `alerts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `all_codes`
 --
 ALTER TABLE `all_codes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `code_types`
 --
 ALTER TABLE `code_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `code_type__to__all_codes`
+--
+ALTER TABLE `code_type__to__all_codes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -262,7 +262,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
