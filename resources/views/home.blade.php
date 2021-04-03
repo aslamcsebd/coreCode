@@ -6,24 +6,7 @@
 
 @section('content')
    <div class="content-wrapper">
-            
-      <div class="content-header">
-         <div class="container-fluid">
-            <div class="row mb-2">
-               <div class="col-sm-6">
-                  <h4 class="m-0 text-dark">Programming Code List</h4>
-               </div>
-               <div class="col-sm-6">
-                  <ol class="breadcrumb float-sm-right">
-                     <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                  </ol>
-               </div>
-            </div>
-         </div>
-      </div>
-
       <div class="container-fluid">
-
          @foreach (['success', 'danger', 'warning', 'info'] as $alert)         
             @if ($message = Session::get($alert))
                <div class="alert alert-{{$alert}} text-center alert-block">
@@ -37,11 +20,11 @@
             <div class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
                @php 
                   $id = Auth::user()->id;
-                  $codeTypes = App\codeType::where('userId', $id)->get();
+                  $codeTypes = App\CodeType::where('userId', $id)->get();
                @endphp
                @foreach($codeTypes as $codeType)
                   @php 
-                     $codeTypeName = App\allCode::where('codeTypeId', $codeType->id)->get(); 
+                     $codeTypeName = App\AllCode::where('codeTypeId', $codeType->id)->get(); 
                   @endphp
                   @if ($codeTypeName->count() > 0)
                      <div class="col firstView {{ (!($loop->index % 2) ? 'even_firstView' : 'odd_firstView') }}">
@@ -58,12 +41,12 @@
             <div class="row justify-content-center order order_extra ">
                <div class="col-md-2 col-sm-2 col-xs-6 sum">
                   <section class="menu-section">
-                     <a class="btn btn-fill" href="{{ url('viewCodeAll') }}">      
+                     <a class="btn btn-fill" href="{{ url('viewAllCode') }}">      
                         <span>
                            @php
                               $total = 0;
                               foreach($codeTypes as $codeType){
-                                 $sum = App\allCode::where('codeTypeId', $codeType->id)->get()->count();
+                                 $sum = App\AllCode::where('codeTypeId', $codeType->id)->get()->count();
                                  $total = $sum + $total; 
                               }
                            @endphp
@@ -79,11 +62,11 @@
 
             <div class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
                @php 
-                  $codeTypes = App\codeType::all();
+                  $codeTypes = App\CodeType::all();
                @endphp                           
                
                @foreach($codeTypes as $codeType)
-                  @php $codeTypeName = App\allCode::where('codeTypeId', $codeType->id)->get(); @endphp
+                  @php $codeTypeName = App\AllCode::where('codeTypeId', $codeType->id)->get(); @endphp
 
                      @if ($codeTypeName->count() > 0)
                         <div class="col firstView {{ (!($loop->index % 2) ? 'even_firstView' : 'odd_firstView') }}">
@@ -100,12 +83,12 @@
             <div class="row justify-content-center order order_extra ">
                <div class="col-md-2 col-sm-2 col-xs-6 sum">
                   <section class="menu-section">
-                     <a class="btn btn-fill" href="{{ url('viewCodeAll') }}">      
+                     <a class="btn btn-fill" href="{{ url('viewAllCode') }}">      
                         <span>
                            @php
                               $total = 0;
                               foreach($codeTypes as $codeType){
-                                 $sum = App\allCode::where('codeTypeId', $codeType->id)->get()->count();
+                                 $sum = App\AllCode::where('codeTypeId', $codeType->id)->get()->count();
                                  $total = $sum + $total; 
                               }
                            @endphp
@@ -116,16 +99,7 @@
                   </section>
                </div>
             </div>
-
-         @endauth   
-
+         @endauth
       </div>
    </div>
-   <footer class="main-footer">
-      <strong>Copyright &copy; 2014-2019 <a href="">গ্রন্থশালা</a>.</strong>
-      All rights reserved.
-      <div class="float-right d-none d-sm-inline-block">
-         <b>Version</b> 3.0.5
-      </div>
-   </footer>
 @endsection

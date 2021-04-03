@@ -1,15 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
 
+//use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
 
+use App\AllCode;
+use App\CodeIcon;
+use App\CodeType;
 use App\User;
-use App\allCode;
-use App\codetype;
-
 
 class CodeController extends Controller{
 
@@ -17,13 +17,14 @@ class CodeController extends Controller{
   
    // Add Code type
       public function addItem(Request $request){
+         $userId= 22;
          $validated = $request->validate([
             'userId'=> 'required',
-            'codeType'=>'required'
+            'codeType'=>'required|unique:code_types,codeType'
+            //"email|unique:users, email, '.$id.', user_id"
          ]);
-         codeType::insert($validated);
-
-         return back()->with('danger', 'Code Type Save Successfully');
+         CodeType::insert($validated);
+         return back()->with('success', 'Code type add successfully');
       }
 
    // Add Code
@@ -33,21 +34,21 @@ class CodeController extends Controller{
             'codeTitle'=>'required',
             'code'=>'required'
          ]);
-         allCode::insert($validated);
-         return back()->with('success','Code Type Save Successfully');
+         AllCode::insert($validated);
+         return back()->with('success','Code type save successfully');
       }
 
    //Edit Code
       public function editCode(Request $request){
          if ($request->codeTypeId == null) {
-            allCode::find($request->id)->update([
-               'codeTitle'=>$request->codeTitle,    
+            AllCode::find($request->id)->update([
+               'codeTitle'=>$request->codeTitle,
                'code'=>$request->code
             ]);
          }
          
          if(isset($request->codeTypeId)){
-             allCode::find($request->id)->update([
+             AllCode::find($request->id)->update([
                'codeTypeId'=>$request->codeTypeId,    
                'codeTitle'=>$request->codeTitle,    
                'code'=>$request->code
@@ -58,19 +59,19 @@ class CodeController extends Controller{
 
    // View Code
       public function viewCode($id){
-         $data['singleCodeType'] = allCode::where('codeTypeId', $id)->get();
-         $data['CodeTypeName'] = codeType::find($id);
-         return view('view_code', $data);
+         $data['singleCodeType'] = AllCode::where('codeTypeId', $id)->get();
+         $data['codeTypeName'] = CodeType::find($id);
+         return view('viewCode', $data);     
       }
 
-      public function viewCodeAll(){
+      public function viewAllCode(){
          if (Auth::user()){  
             $id = Auth::user()->id;
-            $data['allCodeTypes'] = codeType::where('userId', $id)->get();         
-            return view('view_code', $data);
+            $data['allCodeTypes'] = CodeType::where('userId', $id)->get();         
+            return view('viewCode', $data);
          }else{
-            $data['allCodeTypes'] = codeType::all();         
-            return view('view_code', $data);
+            $data['allCodeTypes'] = CodeType::all();         
+            return view('viewCode', $data);
          }
       }
 
@@ -78,25 +79,25 @@ class CodeController extends Controller{
    public function trashedCode(){
       if (Auth::user()){  
          $id = Auth::user()->id;
-         $data['trashedCodeTypes'] = codeType::where('userId', $id)->get();
+         $data['trashedCodeTypes'] = CodeType::where('userId', $id)->get();
          $data['trashedCode'] = 'All Trashed Code';
-         return view('view_code', $data);
+         return view('viewCode', $data);
       }
    }
 
    //Soft Delete
       function softDelete($id){
-         allCode::find($id)->delete();
+         AllCode::find($id)->delete();
          return back()->with('danger', 'Code soft delete successfully');
       }
 
       function restore($id){
-         allCode::onlyTrashed()->find($id)->restore();
+         AllCode::onlyTrashed()->find($id)->restore();
          return back()->with('success', 'Code restore successfully');
       }
 
       function forceDelete($id){
-         allCode::onlyTrashed()->find($id)->forceDelete();
+         AllCode::onlyTrashed()->find($id)->forceDelete();
          return back()->with('forceDelete', 'Code permanently delete successfully');
       }
 
