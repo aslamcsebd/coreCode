@@ -15,9 +15,17 @@
                </div>
             @endif
          @endforeach
-
+        
+         @if($errors)
+             @foreach ($errors->all() as $error)
+                  <div class="alert alert-danger text-center alert-block">
+                     <button type="button" class="close" data-dismiss="alert">×</button>  
+                     <strong>{{ $error }}</strong>
+                  </div>
+             @endforeach
+         @endif
          @auth
-            <div class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
+            <div class="row row-cols-2 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
                @php 
                   $id = Auth::user()->id;
                   $codeTypes = App\CodeType::where('userId', $id)->get();
@@ -37,9 +45,10 @@
                      </div>                     
                   @endif
                @endforeach
-            </div>
-            <div class="row justify-content-center order order_extra ">
-               <div class="col-md-2 col-sm-2 col-xs-6 sum">
+            </div>            
+            <hr>
+            <div class="row row-cols-2 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 justify-content-center">
+               <div class="col sum">
                   <section class="menu-section">
                      <a class="btn btn-fill" href="{{ url('viewAllCode') }}">      
                         <span>
@@ -60,7 +69,7 @@
 
          @else
 
-            <div class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
+            <div class="row row-cols-2 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
                @php 
                   $codeTypes = App\CodeType::all();
                @endphp                           

@@ -1,45 +1,112 @@
 <?php
 namespace App\Http\Controllers;
 
-//use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
+use Validator;
+use Redirect;
 
 use App\AllCode;
 use App\CodeIcon;
 use App\CodeType;
+use App\CodeTypeIcon;
 use App\User;
 
 class CodeController extends Controller{
 
-   // $user = Auth::user()->id;
-  
+   // Code type Icon
+      public function viewIcon(Request $request){        
+         return view('viewCodeIcon');
+      }
+
+      public function addIcon(Request $request){
+         $validator = Validator::make($request->all(),[
+            'iconName'=> 'required|unique:code_type_icons,iconName',
+            'iconLink'=> 'required|unique:code_type_icons,iconLink'
+         ]);
+
+         if($validator->fails()) {
+            $messages = $validator->messages();    
+            return Redirect::back()->withErrors($validator);
+         }
+
+         CodeTypeIcon::insert([
+            'iconName' => $request->iconName,
+            'iconLink' => $request->iconLink,
+            'created_at' => Carbon::now(),
+         ]);
+         return back()->with('success', 'Code type icon add successfully');
+      }
+
+      public function editIcon(Request $request){
+         CodeTypeIcon::find($request->id)->update([
+            'iconName'=>$request->iconName,
+            'iconLink'=>$request->iconLink
+         ]);
+         return back()->with('success', 'Icon edit successfully');
+      }
+
+      function iconDelete($id){
+         CodeTypeIcon::find($id)->delete();
+         return back()->with('danger', 'Icon delete successfully');
+      }
+   
    // Add Code type
       public function addItem(Request $request){
-         $userId= 22;
-         $validated = $request->validate([
-            'userId'=> 'required',
-            'codeType'=>'required|unique:code_types,codeType'
-            //"email|unique:users, email, '.$id.', user_id"
+         $userId = Auth::user()->id;
+         $validator = Validator::make($request->all(),[
+            'codeType' => 'required|unique:code_types,codeType,userId'.\Auth::user()->id,
          ]);
-         CodeType::insert($validated);
+
+         if($validator->fails()) {
+            $messages = $validator->messages();      
+            return Redirect::back()->withErrors($validator);
+         }
+   
+         if ($request->codeTypeIconId == null) {
+            CodeType::insert([
+               'userId' => $userId,
+               'codeType' => $request->codeType,
+               'created_at' => Carbon::now(),
+            ]);
+         }else{
+            CodeType::insert([
+               'userId' => $userId,
+               'codeTypeIconId' => $request->codeTypeIconId,
+               'codeType' => $request->codeType,
+               'created_at' => Carbon::now(),
+            ]);
+         }
          return back()->with('success', 'Code type add successfully');
       }
 
    // Add Code
       public function addCode(Request $request){
-         $validated = $request->validate([
+
+         $validator = Validator::make($request->all(),[
             'codeTypeId'=> 'required',
             'codeTitle'=>'required',
             'code'=>'required'
          ]);
-         AllCode::insert($validated);
+
+         if($validator->fails()) {
+            $messages = $validator->messages();    
+            return Redirect::back()->withErrors($validator);
+         }
+
+         AllCode::insert([
+            'codeTypeId' => $request->codeTypeId,
+            'codeTitle' => $request->codeTitle,
+            'code' => $request->code,
+            'created_at' => Carbon::now(),
+         ]);
          return back()->with('success','Code type save successfully');
       }
 
    //Edit Code
       public function editCode(Request $request){
+
          if ($request->codeTypeId == null) {
             AllCode::find($request->id)->update([
                'codeTitle'=>$request->codeTitle,
@@ -54,7 +121,8 @@ class CodeController extends Controller{
                'code'=>$request->code
             ]);
          }
-         return back()->with('success', 'Code edit successfully');;
+
+        return back()->with('success', 'Code edit successfully');;
       }
 
    // View Code
@@ -75,15 +143,15 @@ class CodeController extends Controller{
          }
       }
 
-   //Trashed Code   
-   public function trashedCode(){
-      if (Auth::user()){  
-         $id = Auth::user()->id;
-         $data['trashedCodeTypes'] = CodeType::where('userId', $id)->get();
-         $data['trashedCode'] = 'All Trashed Code';
-         return view('viewCode', $data);
+   //Trashed Code
+      public function trashedCode(){
+         if (Auth::user()){  
+            $id = Auth::user()->id;
+            $data['trashedCodeTypes'] = CodeType::where('userId', $id)->get();
+            $data['trashedCode'] = 'All Trashed Code';
+            return view('viewCode', $data);
+         }
       }
-   }
 
    //Soft Delete
       function softDelete($id){

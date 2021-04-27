@@ -12,6 +12,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('viewCode/{id}', 'CodeController@viewCode')->name('viewCode');
 Route::get('viewAllCode', 'CodeController@viewAllCode')->name('viewAllCode');
 
+// Code type icon
+Route::post('addIcon', 'CodeController@addIcon')->name('addIcon');
+Route::get('viewIcon', 'CodeController@viewIcon')->name('viewIcon');
+Route::post('editIcon', 'CodeController@editIcon')->name('editIcon');
+Route::get('iconDelete/{id}', 'CodeController@iconDelete')->name('iconDelete');
+
+
+
 // Leftside
 Route::post('addItem', 'CodeController@addItem')->name('addItem');
 Route::post('addCode', 'CodeController@addCode')->name('addCode');

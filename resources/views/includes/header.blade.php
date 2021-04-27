@@ -1,12 +1,12 @@
 <nav id="navbar_top" class="navbar navbar-expand-md navbar-light navbar-muted shadow-sm">   
    <a class="navbar-brand" href="{{ url('/') }}">
-      {{ config('app.name', 'None') }}      
+      Victory Loves Preparation
    </a>
    <button class="navbar-toggler text-primary" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
    <span class="navbar-toggler-icon"></span>
    </button>
    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto pushmenu ">
+      <ul class="navbar-nav pushmenu">
          <a class="hamburger sidebar-toggle" data-widget="pushmenu" href="#" role="button">
             <span class="line"></span>
             <span class="line"></span>
@@ -16,13 +16,14 @@
       </ul>
 
       @auth
-         <ul class="navbar-nav all-item ml-auto">
+         <ul class="navbar-nav m-auto">
+            
             <li class="nav-item">
-               <a class="nav-link btn btn-sm btn-outline-primary" data-toggle="modal" data-original-title="test" data-target="#codeType">Add Code Type</a>
+               <a class="nav-link btn btn-sm btn-primary" data-toggle="modal" data-original-title="test" data-target="#codeType">Add Code Type</a>
             </li>
 
             <li class="nav-item">
-               <a class="nav-link btn btn-sm btn-outline-secondary" data-toggle="modal" data-original-title="test" data-target="#addCode">Add Code</a>
+               <a class="nav-link btn btn-sm btn-secondary" data-toggle="modal" data-original-title="test" data-target="#addCode">Add Code</a>
             </li>
 
             {{-- Trashed Code --}}
@@ -30,6 +31,7 @@
                $id = Auth::user()->id;
                $codeTypes = App\CodeType::where('userId', $id)->get();
             @endphp
+
             @php
                $total = 0;
                foreach($codeTypes as $codeType){
@@ -37,14 +39,22 @@
                   $total = $sum + $total; 
                }
             @endphp
+
+            <li class="nav-item">
+               <a class="nav-link btn btn-sm btn-info" href="{{ url('viewAllCode') }}">View All Code</a>
+            </li>
+            
             @if($total > 0)
                <li class="nav-item">
                   <a class="nav-link btn btn-sm btn-danger" href="{{ url('trashedCode')}}">Soft Delete [{{$total}}]</a>
                </li>
             @endif
-            <li class="nav-item">
-               <a class="nav-link btn btn-sm btn-outline-info" href="{{ url('viewAllCode') }}">View All Code</a>
-            </li>              
+
+            @if(Auth::user()->email == 'aslamcsebd@gmail.com')
+               <li class="nav-item">
+                  <a class="nav-link btn btn-sm btn-success" href="{{ url('viewIcon') }}">Code Type Icon</a>
+               </li>
+            @endif
          </ul>
       @endauth
 

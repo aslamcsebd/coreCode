@@ -5,8 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CodeIcon extends Model {
-
+class CodeTypeIcon extends Model
+{
    use SoftDeletes;
-   protected $fillable = ['icon'];
+   protected $fillable = ['iconName', 'iconLink'];
 }
