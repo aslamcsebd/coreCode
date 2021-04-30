@@ -30,7 +30,7 @@ body, .content-wrapper{ background-color: #535c68;}
    border: 1px dashed #fff !important; 
    border-radius: 10px; 
    padding: 5px; 
-   margin: 5px; 
+   margin: 15px 5px 5px; 
 }
 
 hr { border-top: 1px dashed #fff; margin: 10px;}

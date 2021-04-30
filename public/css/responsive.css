@@ -13,7 +13,7 @@
       position: fixed;
       top: 0 !important;
    }
-   .codeTypeName{ background-color: cyan; margin: 5px; padding: 0 5rem;}
+   .codeTypeName{ background-color: cyan; }
    .dataTables_wrapper .dataTables_length,
    .dataTables_wrapper .dataTables_info{ display: none; }
    .dataTables_wrapper .dataTables_filter{ margin-top: 30px; }
@@ -37,7 +37,7 @@
       position: fixed;
       top: 0 !important;
    }  
-   .codeTypeName{ background-color: cyan; margin: 5px; padding: 0 5rem;}
+   .codeTypeName{ background-color: cyan; }
    .dataTables_wrapper .dataTables_length,
    .dataTables_wrapper .dataTables_info{ display: none; }
    .dataTables_wrapper .dataTables_filter{ margin-top: 30px; }
@@ -57,7 +57,7 @@
       position: fixed;
       top: 0 !important;
    }
-   .codeTypeName{ background-color: cyan; margin: 5px; padding: 0 5rem;}
+   .codeTypeName{ background-color: cyan; }
    .dataTables_wrapper .dataTables_length,
    .dataTables_wrapper .dataTables_info{ display: none; }
    .dataTables_wrapper .dataTables_filter{ margin-top: 30px; }

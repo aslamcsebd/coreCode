@@ -7,7 +7,8 @@
 @section('content')
    <div class="content-wrapper">
       <div class="container-fluid">
-         @foreach (['success', 'danger', 'warning', 'info'] as $alert)         
+
+         @foreach (['success', 'danger', 'warning', 'info'] as $alert)
             @if ($message = Session::get($alert))
                <div class="alert alert-{{$alert}} text-center alert-block">
                   <button type="button" class="close" data-dismiss="alert">×</button>  
@@ -24,6 +25,7 @@
                   </div>
              @endforeach
          @endif
+
          @auth
             <div class="row row-cols-2 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
                @php 
@@ -45,8 +47,10 @@
                      </div>                     
                   @endif
                @endforeach
-            </div>            
+            </div>
+
             <hr>
+
             <div class="row row-cols-2 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 justify-content-center">
                <div class="col sum">
                   <section class="menu-section">
@@ -66,9 +70,7 @@
                   </section>
                </div>
             </div>
-
          @else
-
             <div class="row row-cols-2 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 border">
                @php 
                   $codeTypes = App\CodeType::all();
@@ -88,7 +90,8 @@
                         </div>
                      @endif
                @endforeach
-            </div>                
+            </div>
+
             <div class="row justify-content-center order order_extra ">
                <div class="col-md-2 col-sm-2 col-xs-6 sum">
                   <section class="menu-section">

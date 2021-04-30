@@ -5,7 +5,8 @@
 @endsection
 @section('content')
    <div class="content-wrapper">
-      <div class="row justify-content-center" align="center">
+
+      <div class="container-fluid">
          <p class="codeTypeName mt-2">
             @if(isset($allCodeTypes))
                All Code
@@ -15,9 +16,7 @@
                {{$trashedCode}}
             @endif
          </p>
-      </div>
 
-      <div class="container-fluid py-1">
          @foreach (['success', 'danger', 'warning', 'info'] as $alert)         
             @if ($message = Session::get($alert))
                <div class="alert alert-{{$alert}} text-center alert-block">
@@ -28,13 +27,14 @@
          @endforeach
         
          @if($errors)
-             @foreach ($errors->all() as $error)
-                  <div class="alert alert-danger text-center alert-block">
-                     <button type="button" class="close" data-dismiss="alert">×</button>  
-                     <strong>{{ $error }}</strong>
-                  </div>
-             @endforeach
-         @endif         
+            @foreach ($errors->all() as $error)
+               <div class="alert alert-danger text-center alert-block">
+                  <button type="button" class="close" data-dismiss="alert">×</button>  
+                  <strong>{{ $error }}</strong>
+               </div>
+            @endforeach
+         @endif
+
          <table id="abc" class="table table-bordered table-hover">
             <thead class="text-center">
                <tr>                         
