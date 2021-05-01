@@ -26,9 +26,3 @@ class HomeController extends Controller
         return view('home');
     }
 }
-
-https://mysong.aslambd.com/
-https://localization.aslambd.com/
-https://ecommerce.aslambd.com/
-https://hrm.aslambd.com/
-https://code.aslambd.com/
